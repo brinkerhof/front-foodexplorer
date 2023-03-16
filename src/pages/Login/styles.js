@@ -17,6 +17,13 @@ export const Container = styled.div`
       font-size: clamp(3.2rem, 1rem + 5vw, 4.2rem);
     }
   }
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-inline: auto;
+    width: 120rem;
+  }
 `;
 
 export const Form = styled.form`
@@ -42,5 +49,9 @@ export const Form = styled.form`
     color: ${({ theme }) => theme.COLORS.WHITE};
     font-size: 1.4rem;
     text-align: center;
+  }
+  @media (min-width: 768px) {
+    margin-inline: 0;
+    padding: 6.4rem;
   }
 `;
