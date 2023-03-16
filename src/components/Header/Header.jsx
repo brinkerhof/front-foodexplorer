@@ -16,7 +16,7 @@ import {
   Search,
   Button,
   Logout,
-} from "./styles";
+} from "./styles.js";
 
 const Header = (search) => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);

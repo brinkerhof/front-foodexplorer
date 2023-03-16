@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../services/api";
@@ -15,19 +15,29 @@ export const AuthContextProvider = ({ children }) => {
 
   const [auth, setAuth] = useState(haveToken);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async ({ email, password }) => {
     const payload = { email, password };
 
     try {
+      setLoading(true);
       const { data } = await api.post("/sessions", payload);
 
       setAuth(true);
 
       localStorage.setItem("token", `Bearer ${data.token}`);
 
+      setLoading(false);
       navigate("/home");
-    } catch (error) {}
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Algo de errado aconteceu");
+      }
+      setLoading(false);
+    }
   };
 
   const handleLogout = () => {
