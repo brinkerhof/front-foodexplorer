@@ -35,6 +35,32 @@ const Login = () => {
 
       <Form>
         <legend>Faça login</legend>
+        <Input
+          type="email"
+          label="email"
+          value={email}
+          placeholder="Exemplo: exemplo@exemplo.com"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <Input
+          type="password"
+          label="password"
+          title={password}
+          placeholder="No mínimo 6 caracteres"
+          onChange={(e) => setPassword(e.target.value)}
+          minLength="6"
+          required
+        />
+
+        <Button
+          title={loading ? "Entrando" : "Entrar"}
+          onClick={handleLogin}
+          disabled={loading}
+        />
+
+        <Link onClick={navigate("/register")}>Criar uma conta</Link>
       </Form>
     </Container>
   );
