@@ -37,22 +37,20 @@ const Home = () => {
             <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
           </div>
         </Slogan>
-        {plates.filter((plate) => plate.category == "pratos principais")
-          .length > 0 && (
-          <Section title="Pratos principais">
+        {plates.filter((plate) => plate.category == "salgados").length > 0 && (
+          <Section title="Salgados">
             {plates
-              .filter((plate) => plate.category == "pratos principais")
+              .filter((plate) => plate.category == "salgados")
               .map((plate) => (
                 <Card key={String(plate.id)} data={plate} />
               ))}
           </Section>
         )}
 
-        {plates.filter((plate) => plate.category == "sobremesas").length >
-          0 && (
-          <Section title="Sobremesas">
+        {plates.filter((plate) => plate.category == "doces").length > 0 && (
+          <Section title="Doces">
             {plates
-              .filter((plate) => plate.category == "sobremesas")
+              .filter((plate) => plate.category == "doces")
               .map((plate) => (
                 <Card key={String(plate.id)} data={plate} />
               ))}
