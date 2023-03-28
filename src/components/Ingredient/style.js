@@ -14,4 +14,19 @@ export const Container = styled.div`
     font-size: 1.8rem;
     color: ${({ theme }) => theme.COLORS.GRAY_100};
   }
+  @media (max-width: 768px) {
+    gap: 1rem;
+    .ingredients-wrapper {
+      gap: 1rem;
+
+      > img {
+        width: 5rem;
+        height: 5rem;
+      }
+      > span {
+        font-size: 1.4rem;
+        line-height: 2rem;
+      }
+    }
+  }
 `;

@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FiMinus, FiPlus, FiChevronLeft } from "react-icons/fi";
 
-import { Footer } from "../../components/Footer";
-import { Header } from "../../components/Header";
-import { Button } from "../../components/Button";
-import { Ingredient } from "../../components/Ingredient";
+import currencyFormater from "../../utils/currencyFormater";
+
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import Button from "../../components/Button";
+import Ingredient from "../../components/Ingredient";
 import { api } from "../../services/api";
-import { useCart } from "../../hooks/cart";
 
 import receipt from "../../assets/receipt.svg";
 
@@ -72,7 +73,7 @@ const Details = () => {
               ))}
             </Ingredients>
             <Info>
-              <strong>R$ {plate.price}</strong>
+              <strong>R$ {currencyFormater(plate.price)}</strong>
               <div>
                 <Button
                   title="incluir"

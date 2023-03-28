@@ -27,7 +27,7 @@ import limao from "../../assets/Ingredientes/limao.png";
 import whiskey from "../../assets/Ingredientes/whiskey.png";
 import maca from "../../assets/Ingredientes/maca.png";
 
-const Ingredients = ({ ingredient }) => {
+const Ingredient = ({ ingredient }) => {
   const imageIngredient = (name) => {
     let ingredient = name
       .toLowerCase()
@@ -94,11 +94,11 @@ const Ingredients = ({ ingredient }) => {
 
   return (
     <Container>
-      <div className="ingredients-wrapper">
+      <div className="ingredient-wrapper">
         <img src={result} alt="" />
         <span>{ingredient}</span>
       </div>
     </Container>
   );
 };
-export default Ingredients;
+export default Ingredient;
