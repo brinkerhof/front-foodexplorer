@@ -7,6 +7,9 @@ import { api } from "../../services/api";
 
 import cover from "../../assets/cover.png";
 import { Container, Content, Slogan } from "./styles";
+import Section from "../../components/Section";
+import Card from "../../components/Card/";
+import { useOrderContext } from "../../providers/orders";
 
 const Home = () => {
   const [plates, setPlates] = useState([]);
@@ -18,6 +21,7 @@ const Home = () => {
       setPlates(data);
     } catch (error) {}
   };
+
   useEffect(() => {
     getPlates();
   }, []);
@@ -33,6 +37,37 @@ const Home = () => {
             <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
           </div>
         </Slogan>
+        {plates.filter((plate) => plate.category == "pratos principais")
+          .length > 0 && (
+          <Section title="Pratos principais">
+            {plates
+              .filter((plate) => plate.category == "pratos principais")
+              .map((plate) => (
+                <Card key={String(plate.id)} data={plate} />
+              ))}
+          </Section>
+        )}
+
+        {plates.filter((plate) => plate.category == "sobremesas").length >
+          0 && (
+          <Section title="Sobremesas">
+            {plates
+              .filter((plate) => plate.category == "sobremesas")
+              .map((plate) => (
+                <Card key={String(plate.id)} data={plate} />
+              ))}
+          </Section>
+        )}
+
+        {plates.filter((plate) => plate.category == "bebidas").length > 0 && (
+          <Section title="Bebidas">
+            {plates
+              .filter((plate) => plate.category == "bebidas")
+              .map((plate) => (
+                <Card key={String(plate.id)} data={plate} />
+              ))}
+          </Section>
+        )}
       </Content>
       <Footer />
     </Container>

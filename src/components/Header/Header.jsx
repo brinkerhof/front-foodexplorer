@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiSearch, FiLogOut, FiMenu, FiX } from "react-icons/fi";
 
@@ -6,6 +6,7 @@ import header from "../../assets/header.svg";
 import receipt from "../../assets/receipt.svg";
 
 import { useAuthContext } from "../../providers/auth";
+import { Link } from "react-router-dom";
 
 import {
   Container,
@@ -22,30 +23,21 @@ const Header = (search) => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   const { handleLogout, user } = useAuthContext();
-  const { orders } = useOrderContext();
 
-  const navigate = useNavigate();
-
-  const handleGoToOrders = () => {
-    navigate("/orders");
-  };
-  const handleGoToHome = () => {
-    navigate("/home");
-  };
-  const handleNewPlate = () => {
-    navigate("/new");
-  };
   return (
     <Container>
       <Content>
-        <Logo onClick={handleGoToHome}>
-          <img src={header} alt="polígono azul" />
-          <strong>food explorer</strong>
-        </Logo>
-
+        <Link to="/">
+          <Logo>
+            <img src={header} alt="polígono azul" />
+            <strong>food explorer</strong>
+          </Logo>
+        </Link>
         <Nav isVisible={menuIsVisible}>
           {user.isAdmin ? (
-            <NewPlate onClick={handleNewPlate}>+ Adicionar novo prato</NewPlate>
+            <Link to={"/new"}>
+              <NewPlate>+ Adicionar novo prato</NewPlate>
+            </Link>
           ) : null}
 
           <Search>
@@ -60,24 +52,21 @@ const Header = (search) => {
           </Search>
 
           {user.isAdmin ? (
-            <Button type="button" onClick={handleGoToOrders}>
+            <Button type="button">
               <img src={receipt} alt="receipt" />
               pedidos<span>({orders.length})</span>
             </Button>
           ) : (
-            <Button
-              type="button"
-              onClick={handleGoToCart}
-              disabled={isCartIsEmpty}
-            >
+            <Button type="button">
               <img src={receipt} alt="receipt" />
-              Meu pedido <span>({cart.length})</span>
+              Meu pedido <span></span>
             </Button>
           )}
-
-          <Logout onClick={handleLogout}>
-            <FiLogOut />
-          </Logout>
+          <Link to={"/"}>
+            <Logout onClick={handleLogout}>
+              <FiLogOut />
+            </Logout>
+          </Link>
         </Nav>
 
         <button type="button" onClick={() => setMenuIsVisible(!menuIsVisible)}>

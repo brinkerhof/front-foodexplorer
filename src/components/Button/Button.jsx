@@ -1,4 +1,5 @@
 import React from "react";
+import { Container } from "./styles";
 
 const Button = ({ title, image, isInvisible = false, ...rest }) => {
   return (

@@ -4,14 +4,18 @@ import { ThemeProvider } from "styled-components";
 import GlobalStyles from "../styles/global.js";
 import { AuthContextProvider } from "./auth";
 import theme from "../styles/theme";
+import Routes from "../routes/index.jsx";
+import { OrderContextProvider } from "./orders.jsx";
 
 const Providers = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <BrowserRouter>
-        <AuthContextProvider>{children}</AuthContextProvider>
-      </BrowserRouter>
+      <AuthContextProvider>
+        <OrderContextProvider>
+          <Routes />
+        </OrderContextProvider>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 };

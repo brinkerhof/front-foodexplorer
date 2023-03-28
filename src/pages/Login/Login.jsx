@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import { useAuthContext } from "../../providers/auth";
 import { Container, Form } from "./styles";
 
 const Login = () => {
-  const { handleLogin, auth, loading } = useAuthContext();
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    if (auth) {
-      navigate("/home");
-    }
-  }, []);
+  const navigate = useNavigate();
+  const { handleLogin, loading } = useAuthContext();
 
   return (
     <Container>
@@ -38,7 +34,7 @@ const Login = () => {
         <Input
           type="email"
           label="email"
-          value={email}
+          title="Email"
           placeholder="Exemplo: exemplo@exemplo.com"
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -47,7 +43,7 @@ const Login = () => {
         <Input
           type="password"
           label="password"
-          title={password}
+          title="Senha"
           placeholder="No mínimo 6 caracteres"
           onChange={(e) => setPassword(e.target.value)}
           minLength="6"
@@ -56,11 +52,10 @@ const Login = () => {
 
         <Button
           title={loading ? "Entrando" : "Entrar"}
-          onClick={handleLogin}
+          onClick={() => handleLogin({ email, password })}
           disabled={loading}
         />
-
-        <Link onClick={navigate("/register")}>Criar uma conta</Link>
+        <Link to="/register">Criar uma conta</Link>
       </Form>
     </Container>
   );

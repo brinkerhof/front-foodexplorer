@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import { api } from "../../services/api";
 
 import { Container, Form } from "./styles";
@@ -11,7 +13,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleRegister = ({ name, email, password }) => {
+  const handleRegister = () => {
     if (!name || !email || !password) {
       return alert("Preencha todos os campos");
     }
@@ -55,7 +57,44 @@ const Register = () => {
         <h1>food explorer</h1>
       </div>
 
-      <Form></Form>
+      <Form>
+        <legend>Crie sua conta</legend>
+        <Input
+          type="text"
+          label="name"
+          title="Seu nome"
+          placeholder="Exemplo: Maria da Silva"
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+
+        <Input
+          type="email"
+          label="email"
+          title="Email"
+          placeholder="Exemplo: exemplo@exemplo.com"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <Input
+          type="password"
+          label="password"
+          title="Senha"
+          placeholder="No mínimo 6 caracteres"
+          onChange={(e) => setPassword(e.target.value)}
+          minLength="6"
+          required
+        />
+
+        <Button
+          title={loading ? "Cadastrando" : "Criar conta"}
+          onClick={handleRegister}
+          disabled={loading}
+        />
+
+        <Link to="/">Já tenho uma conta</Link>
+      </Form>
     </Container>
   );
 };

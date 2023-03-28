@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { api } from "../services/api";
 
@@ -8,8 +7,6 @@ export const AuthContext = createContext({});
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
-  const navigate = useNavigate();
-
   const token = localStorage.getItem("token");
   const haveToken = !!token;
 
@@ -29,7 +26,6 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.setItem("token", `Bearer ${data.token}`);
 
       setLoading(false);
-      navigate("/home");
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message);
@@ -44,10 +40,7 @@ export const AuthContextProvider = ({ children }) => {
     setAuth(false);
     setUser({});
     localStorage.setItem("token", "");
-    navigate("/");
   };
-
-  console.log(user);
 
   const handleGetMyInfos = async () => {
     const { data } = await api.get("/users/my-infos", {
@@ -69,7 +62,16 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ auth, setAuth, handleLogin, handleLogout, user, setUser, token }}
+      value={{
+        auth,
+        setAuth,
+        handleLogin,
+        handleLogout,
+        loading,
+        user,
+        setUser,
+        token,
+      }}
     >
       {children}
     </AuthContext.Provider>
