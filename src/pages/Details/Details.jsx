@@ -15,29 +15,34 @@ import receipt from "../../assets/receipt.svg";
 import {
   Container,
   Main,
-  Ingredients,
+  AllIngredientCards,
   ButtonBack,
   Content,
   Info,
 } from "./styles";
 import { useOrderContext } from "../../providers/orders";
+import { useAuthContext } from "../../providers/auth";
 
 const Details = () => {
   const [plate, setPlate] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const { handleAddPlateOrder } = useOrderContext;
   const params = useParams();
+  const { user } = useAuthContext();
+
+  const imageURL = plate && `${api.defaults.baseURL}/files/${plate.image}`;
 
   const getPlateIngredients = async () => {
     try {
       const { data } = await api.get(`/plates/${params.id}/ingredients`);
       setIngredients(data);
+      console.log(data);
     } catch (error) {}
   };
 
   const getPlate = async () => {
     try {
-      const { data } = await api.get("/plates");
+      const { data } = await api.get(`/plates/${params.id}`);
       setPlate(data);
     } catch (error) {}
   };
@@ -57,33 +62,37 @@ const Details = () => {
             Voltar
           </Link>
         </ButtonBack>
-        <Main>
-          <div>
-            <img src={plate.image} />
-          </div>
-          <div>
-            <h1>{plate.name}</h1>
-            <p>{plate.description}</p>
-            <Ingredients>
-              {ingredients.map((ingredient) => (
-                <Ingredient
-                  key={String(ingredient.id)}
-                  ingredient={ingredient.name}
-                />
-              ))}
-            </Ingredients>
-            <Info>
-              <strong>R$ {currencyFormater(plate.price)}</strong>
-              <div>
-                <Button
-                  title="incluir"
-                  image={receipt}
-                  onClick={() => handleAddPlateOrder(plate)}
-                />
-              </div>
-            </Info>
-          </div>
-        </Main>
+        {plate && (
+          <Main>
+            <div>
+              <img src={imageURL} />
+            </div>
+            <div>
+              <h1>{plate.name}</h1>
+              <p>{plate.description}</p>
+              <AllIngredientCards>
+                {ingredients.map((ingredient) => (
+                  <Ingredient
+                    key={String(ingredient.id)}
+                    ingredient={ingredient.name}
+                  />
+                ))}
+              </AllIngredientCards>
+              <Info>
+                <strong>{currencyFormater(plate.price)}</strong>
+                {user.isAdmin ? (
+                  <div>
+                    <Button
+                      title="incluir"
+                      image={receipt}
+                      onClick={() => handleAddPlateOrder(plate)}
+                    />
+                  </div>
+                ) : null}
+              </Info>
+            </div>
+          </Main>
+        )}
       </Content>
       <Footer />
     </Container>

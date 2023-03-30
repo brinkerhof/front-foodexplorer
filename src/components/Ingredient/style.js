@@ -1,19 +1,25 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.section`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  > img {
-    width: 7.2rem;
-    height: 7.2rem;
+  gap: 4rem;
+  .ingredients-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    > img {
+      width: 6rem;
+      height: 6rem;
+    }
+    > span {
+      font-size: 1.8rem;
+      line-height: 2.6rem;
+      font-weight: 300;
+      color: ${({ theme }) => theme.COLORS.GRAY_100};
+    }
   }
-  .ingredient-name {
-    font-size: 1.8rem;
-    color: ${({ theme }) => theme.COLORS.GRAY_100};
-  }
+
   @media (max-width: 768px) {
     gap: 1rem;
     .ingredients-wrapper {
@@ -22,6 +28,21 @@ export const Container = styled.div`
       > img {
         width: 5rem;
         height: 5rem;
+      }
+      > span {
+        font-size: 1.4rem;
+        line-height: 2rem;
+      }
+    }
+  }
+  @media (max-width: 425px) {
+    gap: 1rem;
+    .ingredients-wrapper {
+      gap: 1rem;
+
+      > img {
+        width: 4rem;
+        height: 4rem;
       }
       > span {
         font-size: 1.4rem;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FiChevronLeft, FiUpload } from "react-icons/fi";
 import Select from "react-select";
 
@@ -19,9 +19,9 @@ import {
   SectionIngredients,
 } from "./styles";
 
-const NewPlate = () => {
+const Edit = () => {
   const token = localStorage.getItem("token");
-  const [image, setImage] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -31,6 +31,7 @@ const NewPlate = () => {
   const [newIngredient, setNewIngredient] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const params = useParams();
 
   const handleAddIngredient = () => {
     setIngredients((prevState) => [...prevState, newIngredient]);
@@ -42,9 +43,20 @@ const NewPlate = () => {
       prevState.filter((ingredient) => ingredient !== deleted)
     );
   };
+  const handPlateEditInfos = async () => {
+    const { data } = await api.get(`/plates/${params.id}`);
 
+    const { name, description, category, price, image, ingredients } = data;
+
+    setName(name);
+    setImageFile(image);
+    setDescription(description);
+    setCategory(category);
+    setPrice(price);
+    setIngredients(ingredients);
+  };
   const handleNewPlate = async () => {
-    if (!image) {
+    if (!imageFile) {
       return alert("Adicione uma imagem para o prato");
     }
 
@@ -65,27 +77,23 @@ const NewPlate = () => {
         "Você deixou um ingrediente no campo para adicionar, mas não clicou em adicionar. Clique para adicionar ou deixe o campo vazio."
       );
     }
-
-    if (ingredients.length < 1) {
-      return alert("Adicione pelo menos um ingrediente");
-    }
-
     setLoading(true);
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("image", imageFile);
     formData.append("name", name);
     formData.append("description", description);
     formData.append("category", category);
     formData.append("price", price);
 
     ingredients.map((ingredient) => formData.append("ingredients", ingredient));
+    console.log(formData);
 
-    await api.post("/plates", formData, {
+    await api.put(`/plates/${params.id}`, formData, {
       headers: {
         Authorization: token,
       },
     });
-    alert("Prato cadastrado com sucesso");
+    alert("Prato atualizado com sucesso");
     navigate("/");
 
     setLoading(false);
@@ -96,6 +104,9 @@ const NewPlate = () => {
     { value: "doces", label: "Doces" },
     { value: "bebidas", label: "Bebidas" },
   ];
+  useEffect(() => {
+    handPlateEditInfos();
+  }, []);
   return (
     <Container>
       <Header />
@@ -135,10 +146,12 @@ const NewPlate = () => {
               title="Nome do prato"
               type="text"
               placeholder="Ex.: Salada Ceasar"
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <Select
               options={option}
+              value={category}
               onChange={(e) => {
                 setCategory(e.value);
               }}
@@ -149,10 +162,10 @@ const NewPlate = () => {
             <SectionIngredients>
               <span>Ingredientes</span>
               <div>
-                {ingredients.map((ingredient, index) => (
+                {ingredients.map((ingredient) => (
                   <IngredientCard
-                    key={String(index)}
-                    value={ingredient}
+                    key={String(ingredient.id)}
+                    value={ingredient.name}
                     onClick={() => handleRemoveIngredient(ingredient)}
                   />
                 ))}
@@ -170,6 +183,7 @@ const NewPlate = () => {
                 label="price"
                 title="Preço"
                 type="text"
+                value={price}
                 placeholder="R$ 00,00"
                 onChange={(e) => setPrice(e.target.value)}
               />
@@ -178,10 +192,10 @@ const NewPlate = () => {
           <Textarea
             label="Description"
             title="Descrição"
+            defaultValue={description}
             placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
             onChange={(e) => {
               setDescription(e.target.value);
-              console.log(image);
             }}
           />
           <button type="button" onClick={handleNewPlate} disabled={loading}>
@@ -194,4 +208,4 @@ const NewPlate = () => {
   );
 };
 
-export default NewPlate;
+export default Edit;

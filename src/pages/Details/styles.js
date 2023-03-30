@@ -127,11 +127,17 @@ export const Main = styled.main`
   }
 `;
 
-export const Ingredients = styled.div`
+export const AllIngredientCards = styled.section`
   display: flex;
-  gap: 2rem;
-  align-items: center;
-  margin-block: 3rem;
+  gap: 4rem;
+  @media (max-width: 768px) {
+    gap: 0rem;
+    justify-content: space-between;
+  }
+  @media (max-width: 425px) {
+    gap: 0rem;
+    justify-content: space-between;
+  }
 `;
 
 export const Info = styled.div`

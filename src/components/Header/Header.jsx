@@ -23,6 +23,7 @@ const Header = (search) => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
 
   const { handleLogout, user } = useAuthContext();
+  console.log(user);
 
   return (
     <Container>
@@ -34,8 +35,8 @@ const Header = (search) => {
           </Logo>
         </Link>
         <Nav isVisible={menuIsVisible}>
-          {user.isAdmin ? (
-            <Link to={"/new"}>
+          {user.resUser.isAdmin ? (
+            <Link to={"/newplate"}>
               <NewPlate>+ Adicionar novo prato</NewPlate>
             </Link>
           ) : null}
@@ -51,17 +52,6 @@ const Header = (search) => {
             />
           </Search>
 
-          {user.isAdmin ? (
-            <Button type="button">
-              <img src={receipt} alt="receipt" />
-              pedidos<span>({orders.length})</span>
-            </Button>
-          ) : (
-            <Button type="button">
-              <img src={receipt} alt="receipt" />
-              Meu pedido <span></span>
-            </Button>
-          )}
           <Link to={"/"}>
             <Logout onClick={handleLogout}>
               <FiLogOut />

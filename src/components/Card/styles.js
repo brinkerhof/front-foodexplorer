@@ -24,17 +24,13 @@ export const Container = styled.div`
     border: none;
 
     svg {
-      fill: ${({ theme, isFavorite }) =>
-        isFavorite ? theme.COLORS.RED : theme.COLORS.WHITE};
+      fill: ${({ theme }) => theme.COLORS.WHITE};
     }
   }
 
-  > div:nth-child(2) {
+  img {
     width: 17.6rem;
     height: 17.6rem;
-    img {
-      width: 100%;
-    }
   }
 
   > a {

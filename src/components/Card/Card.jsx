@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../providers/auth";
 import Button from "../Button";
 
@@ -9,19 +8,22 @@ import { Container } from "./styles";
 import { useOrderContext } from "../../providers/orders";
 import currencyFormater from "../../utils/currencyFormater";
 
+import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
+
 const Card = ({ data, ...rest }) => {
   const { user } = useAuthContext();
 
   const { handleAddPlateOrder } = useOrderContext();
-
   const navigate = useNavigate();
 
-  function handleDetails(id) {
-    console.log("Details");
-  }
+  const imageURL = `${api.defaults.baseURL}/files/${data.image}`;
 
-  function handleEditPlate(id) {
-    console.log("editPlate");
+  function handleDetails(id) {
+    navigate(`/details/${id}`);
+  }
+  function handleEditDish(id) {
+    navigate(`/edit/${id}`);
   }
 
   async function handleRemovePlate() {
@@ -30,22 +32,22 @@ const Card = ({ data, ...rest }) => {
   }
   return (
     <Container {...rest}>
-      {user.isAdmin ? (
+      {!user.isAdmin ? (
         <button onClick={() => handleRemovePlate(data.id)}>
           <FaTrashAlt size={25} />
         </button>
       ) : null}
 
       <div>
-        <img src={data.image} alt={data.title} />
+        <img src={imageURL} alt={data.title} />
       </div>
 
       <a
         type="button"
         onClick={
           user.isAdmin
-            ? () => handleEditPlate(data.id)
-            : () => handleDetails(data.id)
+            ? () => handleDetails(data.id)
+            : () => handleEditDish(data.id)
         }
       >
         <h3>
@@ -55,7 +57,7 @@ const Card = ({ data, ...rest }) => {
 
       <p>{data.description}</p>
       <strong>{currencyFormater(data.price)}</strong>
-      {user.isAdmin ? (
+      {!user.isAdmin ? (
         <div></div>
       ) : (
         <div>
