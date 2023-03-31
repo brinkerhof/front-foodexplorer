@@ -21,9 +21,16 @@ import {
 
 const Header = (search) => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   const { handleLogout, user } = useAuthContext();
-  console.log(user);
+
+  const handleGoToOrders = () => {
+    navigate("/orders");
+  };
+  const handleGoToNew = () => {
+    navigate("/newplate");
+  };
 
   return (
     <Container>
@@ -35,12 +42,6 @@ const Header = (search) => {
           </Logo>
         </Link>
         <Nav isVisible={menuIsVisible}>
-          {!!user.isAdmin ? (
-            <Link to={"/newplate"}>
-              <NewPlate>+ Adicionar novo prato</NewPlate>
-            </Link>
-          ) : null}
-
           <Search>
             {<FiSearch size={20} />}
             <input
@@ -51,8 +52,13 @@ const Header = (search) => {
               }}
             />
           </Search>
-          {user.isAdmin ? null : (
-            <Button type="button">
+          {user.isAdmin ? (
+            <Button type="button" onClick={() => handleGoToNew()}>
+              <img src={receipt} alt="receipt" />
+              Novo prato
+            </Button>
+          ) : (
+            <Button type="button" onClick={() => handleGoToOrders()}>
               <img src={receipt} alt="receipt" />
               Meu pedido
             </Button>

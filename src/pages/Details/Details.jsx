@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FiMinus, FiPlus, FiChevronLeft } from "react-icons/fi";
+import { FiChevronLeft } from "react-icons/fi";
 
 import currencyFormater from "../../utils/currencyFormater";
 
@@ -26,7 +26,7 @@ import { useAuthContext } from "../../providers/auth";
 const Details = () => {
   const [plate, setPlate] = useState(null);
   const [ingredients, setIngredients] = useState([]);
-  const { handleAddPlateOrder } = useOrderContext;
+  const { handleAddPlateOrder } = useOrderContext();
   const params = useParams();
   const { user } = useAuthContext();
 
@@ -39,6 +39,9 @@ const Details = () => {
       setIngredients(data.ingredients);
     } catch (error) {}
   };
+  function handleEditDish(id) {
+    navigate(`/edit/${id}`);
+  }
 
   useEffect(() => {
     getPlateIngredients();
@@ -75,12 +78,16 @@ const Details = () => {
                 {!user.isAdmin ? (
                   <div>
                     <Button
-                      title="incluir"
-                      image={receipt}
-                      onClick={() => handleAddPlateOrder(plate)}
+                      title="Incluir"
+                      onClick={() => handleAddPlateOrder(plate, imageURL)}
                     />
                   </div>
-                ) : null}
+                ) : (
+                  <Button
+                    title="Editar prato"
+                    onClick={() => handleEditDish(plate.id)}
+                  />
+                )}
               </Info>
             </div>
           </Main>

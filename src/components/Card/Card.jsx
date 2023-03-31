@@ -61,7 +61,10 @@ const Card = ({ data, ...rest }) => {
         <div></div>
       ) : (
         <div>
-          <Button title="incluir" onClick={() => handleAddPlateOrder(data)} />
+          <Button
+            title="incluir"
+            onClick={() => handleAddPlateOrder(data, imageURL)}
+          />
         </div>
       )}
     </Container>
