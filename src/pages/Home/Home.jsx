@@ -17,14 +17,15 @@ const Home = () => {
 
   const getPlates = async () => {
     try {
-      const { data } = await api.get("/plates");
+      const { data } = await api.get(`/plates?name=${search}`);
       setPlates(data);
     } catch (error) {}
   };
+  console.log(search);
 
   useEffect(() => {
     getPlates();
-  }, []);
+  }, [search]);
 
   return (
     <Container>

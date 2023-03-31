@@ -19,7 +19,7 @@ import {
   Logout,
 } from "./styles.js";
 
-const Header = (search) => {
+const Header = ({ search }) => {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ const Header = (search) => {
   const handleGoToNew = () => {
     navigate("/newplate");
   };
+  console.log(search);
 
   return (
     <Container>
