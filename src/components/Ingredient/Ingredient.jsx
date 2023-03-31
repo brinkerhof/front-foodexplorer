@@ -94,7 +94,7 @@ const Ingredient = ({ ingredient }) => {
 
   return (
     <Container>
-      <div className="ingredient-wrapper">
+      <div className="ingredients-wrapper">
         <img src={result} alt="" />
         <span>{ingredient}</span>
       </div>

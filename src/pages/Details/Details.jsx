@@ -34,21 +34,13 @@ const Details = () => {
 
   const getPlateIngredients = async () => {
     try {
-      const { data } = await api.get(`/plates/${params.id}/ingredients`);
-      setIngredients(data);
-      console.log(data);
-    } catch (error) {}
-  };
-
-  const getPlate = async () => {
-    try {
       const { data } = await api.get(`/plates/${params.id}`);
       setPlate(data);
+      setIngredients(data.ingredients);
     } catch (error) {}
   };
 
   useEffect(() => {
-    getPlate();
     getPlateIngredients();
   }, []);
 
@@ -80,7 +72,7 @@ const Details = () => {
               </AllIngredientCards>
               <Info>
                 <strong>{currencyFormater(plate.price)}</strong>
-                {user.isAdmin ? (
+                {!user.isAdmin ? (
                   <div>
                     <Button
                       title="incluir"

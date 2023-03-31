@@ -73,7 +73,7 @@ export const Main = styled.main`
 
     h1 {
       margin-top: 2rem;
-      margin-bottom: 1.8rem;
+      margin-bottom: 2rem;
       font-size: clamp(2.4rem, 1rem + 3vw, 4rem);
       font-weight: 700;
     }
@@ -82,6 +82,7 @@ export const Main = styled.main`
       text-align: center;
       font-size: clamp(1.8rem, 0.4rem + 3vw, 2.4rem);
       color: ${({ theme }) => theme.COLORS.GRAY_200};
+      margin-bottom: 2rem;
     }
 
     div:nth-child(5) {
@@ -130,6 +131,7 @@ export const Main = styled.main`
 export const AllIngredientCards = styled.section`
   display: flex;
   gap: 4rem;
+  margin-bottom: 2rem;
   @media (max-width: 768px) {
     gap: 0rem;
     justify-content: space-between;
@@ -141,7 +143,6 @@ export const AllIngredientCards = styled.section`
 `;
 
 export const Info = styled.div`
-  margin-top: 2rem;
   padding-inline: 2rem;
   display: flex;
   align-items: center;
@@ -170,6 +171,10 @@ export const Info = styled.div`
     position: relative;
 
     z-index: 6;
+  }
+  > div:nth-child(2) {
+    max-width: 170px;
+    width: 170px;
   }
 
   @media (min-width: 768px) {

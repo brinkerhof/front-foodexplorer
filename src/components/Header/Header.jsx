@@ -35,7 +35,7 @@ const Header = (search) => {
           </Logo>
         </Link>
         <Nav isVisible={menuIsVisible}>
-          {user.resUser.isAdmin ? (
+          {!!user.isAdmin ? (
             <Link to={"/newplate"}>
               <NewPlate>+ Adicionar novo prato</NewPlate>
             </Link>
@@ -51,6 +51,12 @@ const Header = (search) => {
               }}
             />
           </Search>
+          {user.isAdmin ? null : (
+            <Button type="button">
+              <img src={receipt} alt="receipt" />
+              Meu pedido
+            </Button>
+          )}
 
           <Link to={"/"}>
             <Logout onClick={handleLogout}>
