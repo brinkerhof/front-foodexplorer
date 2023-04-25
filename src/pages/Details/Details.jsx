@@ -75,7 +75,7 @@ const Details = () => {
               </AllIngredientCards>
               <Info>
                 <strong>{currencyFormater(plate.price)}</strong>
-                {!user.isAdmin ? (
+                {!user.user.isAdmin ? (
                   <div>
                     <Button
                       title="Incluir"

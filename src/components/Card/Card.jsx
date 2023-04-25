@@ -32,7 +32,7 @@ const Card = ({ data, ...rest }) => {
   }
   return (
     <Container {...rest}>
-      {!!user.isAdmin ? (
+      {!!user.user.isAdmin ? (
         <button onClick={() => handleRemovePlate(data.id)}>
           <FaTrashAlt size={25} />
         </button>
@@ -45,7 +45,7 @@ const Card = ({ data, ...rest }) => {
       <a
         type="button"
         onClick={
-          !!user.isAdmin
+          !!user.user.isAdmin
             ? () => handleEditDish(data.id)
             : () => handleDetails(data.id)
         }
@@ -57,7 +57,7 @@ const Card = ({ data, ...rest }) => {
 
       <p>{data.description}</p>
       <strong>{currencyFormater(data.price)}</strong>
-      {!!user.isAdmin ? (
+      {!!user.user.isAdmin ? (
         <div></div>
       ) : (
         <div>

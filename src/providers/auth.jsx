@@ -50,7 +50,7 @@ export const AuthContextProvider = ({ children }) => {
     });
 
     if (!!token) {
-      setUser({ token, resUser: data });
+      setUser({ token, user: data });
     }
   };
 

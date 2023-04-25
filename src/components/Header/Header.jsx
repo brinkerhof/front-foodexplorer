@@ -53,7 +53,7 @@ const Header = ({ search }) => {
               }}
             />
           </Search>
-          {user.isAdmin ? (
+          {!!user.user.isAdmin ? (
             <Button type="button" onClick={() => handleGoToNew()}>
               <img src={receipt} alt="receipt" />
               Novo prato
