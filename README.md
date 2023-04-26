@@ -15,6 +15,8 @@ O projeto será divido em duas partes: `Front-end` e `Back-end`<br>
 Este e o `Front-end`.<br>
 Link para o `Back-end`: https://github.com/brinkerhof/api-foodexplorer
 
+Link de `Deploy`: https://food-explorer-brinkerhoff.netlify.app/
+
 ### 📘 Tecnologias utilizadas no `Front-end`
 
 - [ReactJs](https://reactjs.org)
@@ -43,9 +45,13 @@ Link para o `Back-end`: https://github.com/brinkerhof/api-foodexplorer
 ```
 
 ```bash
-# Perfil do adminstrador
-usuário: admin@admin.com
-senha: 123456
+# Admin login
+$ email: admin@admin.com
+$ password: 123456
+
+# User login
+$ email: user@user.com
+$ password: 123456
 ```
 
 ## ✔️ Autor
