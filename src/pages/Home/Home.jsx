@@ -21,7 +21,6 @@ const Home = () => {
       setPlates(data);
     } catch (error) {}
   };
-  console.log(search);
 
   useEffect(() => {
     getPlates();
