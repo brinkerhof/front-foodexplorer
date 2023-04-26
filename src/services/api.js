@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://benevolent-pastelito-64d01e.netlify.app/",
+  // baseURL: "http://localhost:3000" se estiver rodando localmente
+  baseURL: "https://api-food-explorer-nwu0.onrender.com/",
 });
