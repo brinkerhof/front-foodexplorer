@@ -9,16 +9,21 @@ import cover from "../../assets/cover.png";
 import { Container, Content, Slogan } from "./styles";
 import Section from "../../components/Section";
 import Card from "../../components/Card/";
-import { useOrderContext } from "../../providers/orders";
+import Loading from "../../components/Loading";
 
 const Home = () => {
   const [plates, setPlates] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getPlates = async () => {
     try {
-      const { data } = await api.get(`/plates?name=${search}`);
-      setPlates(data);
+      setLoading(true);
+      setTimeout(async () => {
+        const { data } = await api.get(`/plates?name=${search}`);
+        setPlates(data);
+        setLoading(false);
+      }, 3000);
     } catch (error) {}
   };
 
@@ -46,7 +51,7 @@ const Home = () => {
               ))}
           </Section>
         )}
-
+        {loading && <Loading />}
         {plates.filter((plate) => plate.category == "doces").length > 0 && (
           <Section title="Doces">
             {plates
@@ -56,7 +61,6 @@ const Home = () => {
               ))}
           </Section>
         )}
-
         {plates.filter((plate) => plate.category == "bebidas").length > 0 && (
           <Section title="Bebidas">
             {plates
