@@ -1,28 +1,32 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 100%;
+  color: ${({ theme }) => theme.COLORS.GRAY_200};
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 0.8rem;
-  font-size: 1.6rem;
-  font-weight: 400;
-  color: ${({ theme }) => theme.COLORS.GRAY_200};
 
-  > input {
-    height: 4.8rem;
-    padding: 1.4rem;
+  input {
+    background-color: ${({ theme }) => theme.COLORS.BACKGROUND_400};
+    color: ${({ theme }) => theme.COLORS.GRAY_200};
 
-    border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
-    border-radius: 0.5rem;
+    padding: 1.2rem 1.4rem;
+    border: none;
+    border-radius: 0.8rem;
+    transition: outline 300ms;
 
-    color: ${({ theme }) => theme.COLORS.WHITE};
-    background: transparent;
+    &:disabled {
+      cursor: not-allowed;
+    }
+    &:focus {
+      outline: 2px solid ${({ theme }) => theme.COLORS.CAKE_200};
+    }
+    
 
     &::placeholder {
       color: ${({ theme }) => theme.COLORS.GRAY_500};
-      font-size: 1.6rem;
     }
   }
 `;

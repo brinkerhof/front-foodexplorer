@@ -25,7 +25,11 @@ const Register = () => {
     const payload = { name, email, password };
     api
       .post("/users/", payload)
+
       .then(() => {
+        setName("")
+        setEmail("")
+        setPassword("")
         alert("Usuario cadastrado");
         navigate("/");
         setLoading(false);

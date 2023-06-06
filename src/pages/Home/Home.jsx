@@ -14,17 +14,23 @@ import Loading from "../../components/Loading";
 const Home = () => {
   const [plates, setPlates] = useState([]);
   const [search, setSearch] = useState("");
+  console.log(search)
   const [loading, setLoading] = useState(false);
 
   const getPlates = async () => {
     try {
+      console.log("to aq")
       setLoading(true);
       setTimeout(async () => {
-        const { data } = await api.get(`/plates?name=${search}`);
+        console.log(search)
+        const { data } = await api.get(`/plates/?search=${search}`);
+        console.log(data)
         setPlates(data);
         setLoading(false);
       }, 3000);
-    } catch (error) {}
+    } catch (error) {
+      console.log("Deu erro?")
+    }
   };
 
   useEffect(() => {

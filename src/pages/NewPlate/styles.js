@@ -1,149 +1,218 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 100%;
   min-height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-`;
-
-export const Content = styled.main`
-  width: 100%;
-  flex: 1;
-  max-width: 136.8rem;
-  height: 100%;
-  padding-inline: 4rem;
-  margin-inline: auto;
-
-  @media (min-width: 768px) {
-    width: 100%;
-
-    padding-inline: 12.3rem;
+  > header {
+    position: sticky;
+    z-index: 2;
+    top: 0;
   }
-`;
+  display: grid;
+  grid-template-areas:
+    'header'
+    'back'
+    'main'
+    'footer';
 
-export const ButtonBack = styled.div`
-  width: 100%;
-  margin: 2.4rem auto 4rem;
-  display: flex;
+  grid-template-rows: 11.4rem 7rem auto 7.7rem;
 
-  > a {
+  > .wrapper,
+  > main {
+    width: min(90%, 1122px);
+    margin: 0 auto;
+  }
+  > .wrapper {
+    grid-area: back;
     display: flex;
     align-items: center;
-    font-size: clamp(1.8rem, 0.4rem + 3vw, 2.4rem);
-
-    color: ${({ theme }) => theme.COLORS.WHITE};
+    > a {
+      font-size: clamp(1.4rem, 0.7333rem + 2.0833vw, 2.4rem);
+    }
+  }
+  > main {
+    grid-area: main;
+    padding-bottom: 3.2rem;
   }
 
-  @media (min-width: 768px) {
-    padding-inline: 0;
+  @media (min-width: 769px) {
+    grid-template-rows: 9.3rem 9rem auto 7.7rem;
   }
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 3.2rem;
 
-  > header {
-    legend {
-      font-size: 3.2rem;
-      margin-bottom: 3.2rem;
-    }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 500;
   }
 
-  .smallBox {
-    max-width: 23rem;
+  label {
+    color: ${({ theme }) => theme.COLORS.GRAY_200};
+  }
 
-    #file {
-      color: ${({ theme }) => theme.COLORS.GRAY_200};
+  #threeColumns {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+
+    div:first-child {
+    }
+    div {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1.6rem;
+    }
+    > .input-wrapper {
+      > div {
+        position: relative;
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
 
-      div {
+        padding: 1.2rem 0;
+        border-radius: 0.8rem;
+
         display: flex;
-        align-items: center;
+        flex-direction: row;
         justify-content: center;
-        gap: 1rem;
-
-        border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
-        border-radius: 0.5rem;
         height: 4.8rem;
-        width: 22.9rem;
 
-        color: ${({ theme }) => theme.COLORS.WHITE};
+        padding: 0 0.5rem;
+        text-overflow: ellipsis;
+        > span {
+          color: ${({ theme }) => theme.COLORS.WHITE};
+          font-family: 'Poppins', sans-serif;
+          font-size: 1.4rem;
+          font-weight: 500;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          cursor: pointer;
+
+          overflow: hidden;
+          > svg {
+            flex-shrink: 0;
+            width: 2.4rem;
+            height: 2.4rem;
+          }
+        }
+
+        > div {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          > label {
+            display: none;
+          }
+        }
       }
     }
 
-    input[type="file"] {
-      display: none;
+    > div:nth-child(2) {
+      > input {
+        height: 4.8rem;
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
+      }
     }
   }
 
-  > button {
-    margin-top: 2.4rem;
-    height: 4.8rem;
-    width: 100%;
-    background: #1a2327;
-    border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
-    border-radius: 0.5rem;
-    color: ${({ theme }) => theme.COLORS.WHITE};
+  #twoColumns {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
 
-    align-self: flex-end;
+    > div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      > div {
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
+
+        min-height: 4.8rem;
+        padding: 0.8rem;
+        border-radius: 0.8rem;
+
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.6rem;
+      }
     }
 
-    @media (min-width: 768px) {
-      width: 35.7rem;
+    > div:last-child {
+      gap: 1.6rem;
+
+      > input {
+        height: 4.8rem;
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
+        color: ${({ theme }) => theme.COLORS.GRAY_200};
+      }
+    }
+  }
+
+  > #textarea {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  > #buttonAdd {
+    background-color: ${({ theme }) => theme.COLORS.RED};
+  }
+
+  @media (min-width: 740px) {
+    #threeColumns {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: clamp(1rem, -5.2615rem + 8.4615vw, 3.2rem);
+      > div {
+        width: 100%;
+      }
+
+      > div:first-child {
+        min-width: 184px;
+        max-width: 229px;
+      }
+    }
+
+    #twoColumns {
+      flex-direction: row;
+
+      > div:first-child {
+        flex: 1;
+      }
+    }
+  }
+
+  @media (min-width: 740px) {
+    > #buttonAdd {
+      width: 17.2rem;
+      align-self: flex-end;
     }
   }
 `;
 
-export const InputWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+export const Textarea = styled.textarea`
+  border-radius: 0.8rem;
+  height: 17.2rem;
+  padding: 1.4rem;
 
-  margin-bottom: 4rem;
+  outline: none;
+  border: none;
 
-  gap: 4rem;
-
-  @media (min-width: 768px) {
-    flex-wrap: nowrap;
-    column-gap: 3.2rem;
-  }
-`;
-
-export const SectionIngredients = styled.div`
-  width: 100%;
-  height: 4.8rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+  background-color: ${({ theme }) => theme.COLORS.DARK_800};
   color: ${({ theme }) => theme.COLORS.GRAY_200};
 
-  margin-bottom: 4rem;
+  resize: none;
 
-  > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    max-height: max-content;
-    padding: 0.8rem;
-
-    border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
-    border-radius: 0.5rem;
+  &::placeholder {
+    color: ${({ theme }) => theme.COLORS.GRAY_500};
   }
 
-  @media (min-width: 768px) {
-    margin-bottom: 0;
-
-    > div {
-      max-height: 4.8rem;
-      gap: 2rem;
-    }
+  &:focus {
+    outline: 2px solid ${({ theme }) => theme.COLORS.CAKE_200};
   }
 `;

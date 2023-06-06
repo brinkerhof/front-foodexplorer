@@ -5,6 +5,8 @@ export default {
     BACKGROUND_700: "#00111A",
     BACKGROUND_600: "#001119",
     BACKGROUND_400: "#0D1D25",
+    DARK_800: "#0D161B",
+    DARK_300:'#000204',
 
     WHITE: "#FFF",
 
@@ -15,5 +17,7 @@ export default {
     RED: "#92000E",
     LIGHT_GREEN: "#82F3FF",
     LIGHT_BLUE: "#065E7C",
+
+    CAKE_200 : '#82F3FF',
   },
 };

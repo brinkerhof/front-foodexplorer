@@ -1,187 +1,149 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
+  > header {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+  }
+  display: grid;
+  grid-template-areas:
+    'header'
+    'back'
+    'main'
+    'footer';
 
-export const ButtonBack = styled.div`
-  width: 100%;
-  margin: 2.4rem auto 4rem;
-  display: flex;
+  grid-template-rows: 11.4rem 7rem auto 7.7rem;
 
-  > a {
+  > .wrapper,
+  > main {
+    width: min(90%, 1122px);
+    margin: 0 auto;
+  }
+  > .wrapper {
+    grid-area: back;
     display: flex;
     align-items: center;
-    font-size: clamp(1.8rem, 0.4rem + 3vw, 2.4rem);
-
-    color: ${({ theme }) => theme.COLORS.WHITE};
+    > a {
+      font-size: clamp(1.4rem, 0.7333rem + 2.0833vw, 2.4rem);
+    }
+  }
+  > main {
+    grid-area: main;
   }
 
-  @media (min-width: 768px) {
-    padding-inline: 0;
+  @media (min-width: 769px) {
+    grid-template-rows: 9.3rem 9rem auto 7.7rem;
   }
 `;
 
 export const Content = styled.div`
-  max-width: 136.8rem;
-  height: 100%;
-  padding-inline: 4rem;
-  margin-inline: auto;
-
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding-bottom: 2.4rem;
 
-  flex: 1;
-
-  @media (min-width: 768px) {
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    justify-content: flex-start;
-    padding-inline: 12.3rem;
-    gap: 4rem;
-  }
-`;
-
-export const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  div:nth-child(1) {
-    max-width: 25rem;
+  > img {
+    margin: 0 auto;
+    width: 26.4rem;
+    height: 26.4rem;
     border-radius: 50%;
-
-    img {
-      max-width: 100%;
-    }
   }
-
-  > div:nth-child(2) {
+  > div {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    font-family: "Poppins", sans-serif;
-
-    h1 {
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-      font-size: clamp(2.4rem, 1rem + 3vw, 4rem);
-      font-weight: 700;
-    }
-
-    p {
+    gap: 2.4rem;
+    > h2,
+    > p {
+      font-family: 'Poppins', sans-serif;
       text-align: center;
-      font-size: clamp(1.8rem, 0.4rem + 3vw, 2.4rem);
-      color: ${({ theme }) => theme.COLORS.GRAY_200};
-      margin-bottom: 2rem;
+    }
+    > h2 {
+      font-weight: 500;
+      font-size: clamp(2.7rem, 1.7714rem + 2.9018vw, 4rem);
+      margin-top: 1.6rem;
     }
 
-    div:nth-child(5) {
-      width: 5rem;
+    > p {
+      font-size: clamp(1.6rem, 1.219rem + 1.1905vw, 2.4rem);
+      line-height: 2.2rem;
+      max-width: 29ch;
+      margin: 0 auto;
+    }
 
-      img {
-        display: none;
+    > ul {
+      columns: ${({ Numberingredients }) =>
+        Numberingredients >= 3 ? 3 : Numberingredients};
+      text-align: center;
+      gap: 1rem;
+
+      > li {
+        margin-bottom: 1rem;
+      }
+
+      @media (max-width: 400px) {
+        columns: 2;
+      }
+    }
+
+    > div {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: ${({ isAdmin }) => (isAdmin ? '1fr' : '1fr 2fr')};
+      gap: clamp(1rem, -93.5421rem + 121.0526vw, 3.3rem);
+
+      margin-top: 2rem;
+
+      > a {
+        width: 100%;
+      }
+      > a > button {
+        font-size: clamp(1rem, 0.6632rem + 1.0526vw, 1.4rem);
+        background-color: ${({ theme }) => theme.COLORS.RED};
       }
     }
   }
 
-  @media (min-width: 768px) {
-    width: 100%;
+  @media (min-width: 781px) {
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 4rem;
+    gap: clamp(2rem, -1.571rem + 5.571vw, 4rem);
 
-    > div:nth-child(1) {
-      max-width: 39rem;
-      border-radius: 50%;
+    > img {
+      width: clamp(26.4rem, 20.4518rem + 9.2796vw, 39.011rem);
+
+      height: clamp(26.4rem, 20.5041rem + 9.1979vw, 38.9rem);
     }
 
-    > div:nth-child(2) {
-      max-width: 60rem;
+    > div {
+      width: fit-content;
       align-items: flex-start;
+      align-self: center;
+      max-width: 666px;
 
-      h1 {
-        margin-top: 0;
+      > h2 {
+        font-size: clamp(2.4rem, -0.4568rem + 4.4568vw, 4rem);
+        margin: 0;
       }
 
-      p {
-        text-align: left;
+      > p {
+        text-align: start;
+        font-size: clamp(1.4rem, -0.3855rem + 2.7855vw, 2.4rem);
+        line-height: clamp(2.2rem, 0.2359rem + 3.0641vw, 3.3rem);
+        max-width: none;
       }
 
-      div:nth-child(5) {
-        width: 10rem;
-        img {
-          display: block;
+      > ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        > li {
+          margin-bottom: 0;
         }
       }
-    }
-  }
-`;
 
-export const AllIngredientCards = styled.section`
-  display: flex;
-  gap: 4rem;
-  margin-bottom: 2rem;
-  @media (max-width: 768px) {
-    gap: 0rem;
-    justify-content: space-between;
-  }
-  @media (max-width: 425px) {
-    gap: 0rem;
-    justify-content: space-between;
-  }
-`;
-
-export const Info = styled.div`
-  padding-inline: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1.7rem;
-  width: 100%;
-
-  strong {
-    font-size: clamp(2rem, 1rem + 3vw, 3.2rem);
-    color: ${({ theme }) => theme.COLORS.LIGHT_GREEN};
-    min-width: 10rem;
-  }
-
-  span {
-    font-size: 2rem;
-    font-weight: 700;
-  }
-
-  .btn {
-    background: none;
-    border: none;
-    color: ${({ theme }) => theme.COLORS.WHITE};
-
-    display: flex;
-    align-items: center;
-
-    position: relative;
-
-    z-index: 6;
-  }
-  > div:nth-child(2) {
-    max-width: 170px;
-    width: 170px;
-  }
-
-  @media (min-width: 768px) {
-    padding-inline: 0;
-
-    > strong {
-      min-width: 14rem;
+      > div > a > button {
+        padding-inline: ${({ isAdmin }) => (isAdmin ? '2.4rem' : '0')};
+      }
     }
   }
 `;

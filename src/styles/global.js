@@ -21,7 +21,7 @@ export default createGlobalStyle`
       border-radius: 8px;
     }
   }
-  body {
+  body, strong {
     background-color: ${({ theme }) => theme.COLORS.BACKGROUND_800};
     color: ${({ theme }) => theme.COLORS.WHITE};
     font-family: 'Roboto', sans-serif;

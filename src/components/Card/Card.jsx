@@ -1,65 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuthContext } from "../../providers/auth";
 import Button from "../Button";
+import plateHolder from "../../assets/plateHolder.png"
 
-import { FaAngleRight, FaTrashAlt } from "react-icons/fa";
+import {BsPencilSquare} from "react-icons/bs"
 
 import { Container } from "./styles";
 import { useOrderContext } from "../../providers/orders";
 import currencyFormater from "../../utils/currencyFormater";
 
 import { api } from "../../services/api";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 const Card = ({ data, ...rest }) => {
   const { user } = useAuthContext();
-
   const { handleAddPlateOrder } = useOrderContext();
-  const navigate = useNavigate();
 
-  const imageURL = `${api.defaults.baseURL}/files/${data.image}`;
+  const imageURL = data.image ? `${api.defaults.baseURL}/files/${data.image}`: plateHolder
 
-  function handleDetails(id) {
-    navigate(`/details/${id}`);
-  }
-  function handleEditDish(id) {
-    navigate(`/edit/${id}`);
-  }
-
-  async function handleRemovePlate() {
-    await api.delete(`/plates/${data.id}`);
-    location.reload();
-  }
   return (
     <Container {...rest}>
-      {!!user.user.isAdmin ? (
-        <button onClick={() => handleRemovePlate(data.id)}>
-          <FaTrashAlt size={25} />
+      {user.user.isAdmin ? (
+        <button >
+          <Link to={`/edit/${data.id}`}>
+              <BsPencilSquare size={25} />
+          </Link>
         </button>
       ) : null}
 
-      <div>
+      <Link to={`/details/${data.id}`}>
         <img src={imageURL} alt={data.title} />
-      </div>
-
-      <a
-        type="button"
-        onClick={
-          !!user.user.isAdmin
-            ? () => handleEditDish(data.id)
-            : () => handleDetails(data.id)
-        }
-      >
         <h3>
-          {data.name} <FaAngleRight />
+          {data.name}
         </h3>
-      </a>
-
-      <p>{data.description}</p>
-      <strong>{currencyFormater(data.price)}</strong>
-      {!!user.user.isAdmin ? (
-        <div></div>
-      ) : (
+        <p>{data.description}</p>
+        <strong>{currencyFormater(data.price)}</strong>
+      </Link>
+      {!user.user.isAdmin && (
         <div>
           <Button
             title="incluir"

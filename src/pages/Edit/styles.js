@@ -1,153 +1,236 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
- width: 100%;
- min-height: 100vh;
+  min-height: 100vh;
+  > header {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+  }
+  display: grid;
+  grid-template-areas:
+    'header'
+    'back'
+    'main'
+    'footer';
 
- display: flex;
- flex-direction: column;
-`
+  grid-template-rows: 11.4rem 7rem auto 7.7rem;
 
-export const Content = styled.main`
- width: 100%;flex: 1;
- max-width: 136.8rem;
- height: 100%;
- padding-inline: 4rem;
- margin-inline: auto;
+  > .wrapper,
+  > main {
+    width: min(90%, 1122px);
+    margin: 0 auto;
+  }
+  > .wrapper {
+    grid-area: back;
+    display: flex;
+    align-items: center;
+    > a {
+      font-size: clamp(1.4rem, 0.7333rem + 2.0833vw, 2.4rem);
+    }
+  }
+  > main {
+    grid-area: main;
+    padding-bottom: 3.2rem;
+  }
 
-
- @media (min-width: 768px) {
-
-   width: 100%;
-
-   padding-inline: 12.3rem;
-
- }
-`
-
-export const ButtonBack = styled.div`
- width: 100%;
- margin: 2.4rem auto 4rem;
- display: flex;
- 
- > a {
-   display: flex;
-   align-items: center;
-   font-size: clamp(1.8rem, .4rem + 3vw, 2.4rem);
-
-   color: ${({ theme }) => theme.COLORS.WHITE};
- }
-
- @media (min-width: 768px) {
-   padding-inline: 0;
- }
-`
+  @media (min-width: 769px) {
+    grid-template-rows: 9.3rem 9rem auto 7.7rem;
+  }
+`;
 
 export const Form = styled.form`
- display: flex;
- flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
 
- > header {
-   legend {
-     font-size: 3.2rem;
-     margin-bottom: 3.2rem;
-   }
- } 
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 500;
+  }
 
- .smallBox {
-   max-width: 23rem;
+  label {
+    color: ${({ theme }) => theme.COLORS.GRAY_200};
+  }
 
-   #file {
-     color: ${({ theme }) => theme.COLORS.GRAY_200};
-     display: flex;
-     flex-direction: column;
-     gap: 0.8rem;
+  #threeColumns {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
 
-     div {
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       gap: 1rem;
+    div:first-child {
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+    > .input-wrapper {
+      > div {
+        position: relative;
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
 
-       border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
-       border-radius: 0.5rem;
-       height: 4.8rem;
-       width: 22.9rem;
+        padding: 1.2rem 0;
+        border-radius: 0.8rem;
 
-       color: ${({ theme }) => theme.COLORS.WHITE};
-     }
-   }
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        height: 4.8rem;
 
-   input[type="file"] {
-     display: none;
-   }
- }
+        padding: 0 0.5rem;
+        text-overflow: ellipsis;
+        > span {
+          color: ${({ theme }) => theme.COLORS.WHITE};
+          font-family: 'Poppins', sans-serif;
+          font-size: 1.4rem;
+          font-weight: 500;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          cursor: pointer;
 
- > button {
-   margin-top: 2.4rem;
-   height: 4.8rem;
-   width: 100%;
-   background: #1A2327;
-   border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
-   border-radius: 0.5rem;
-   color: ${({ theme }) => theme.COLORS.WHITE};
+          overflow: hidden;
+          > svg {
+            flex-shrink: 0;
+            width: 2.4rem;
+            height: 2.4rem;
+          }
+        }
 
-   align-self: flex-end;
-   
-   &:disabled {
-     opacity: 0.5;
-     cursor: not-allowed;
-   }
+        > div {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          > label {
+            display: none;
+          }
+        }
+      }
+    }
 
-   @media (min-width: 768px) {
-     width: 35.7rem;
-   }
+    > div:nth-child(2) {
+      > input {
+        height: 4.8rem;
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
+      }
+    }
+  }
 
- }
+  #twoColumns {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
 
-`
+    > div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
 
-export const InputWrapper = styled.div`
- display: flex;
- flex-wrap: wrap;
- 
- margin-bottom: 4rem;
+      > div {
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
 
- gap: 4rem;
+        min-height: 4.8rem;
+        padding: 0.8rem;
+        border-radius: 0.8rem;
 
- @media (min-width: 768px) {
-   flex-wrap: nowrap;
-   column-gap: 3.2rem;
- }
-`
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.6rem;
+      }
+    }
 
-export const SectionIngredients = styled.div`
- width: 100%;
- height: 4.8rem;
- display: flex;
- flex-direction: column;
- gap: 0.8rem;
- color: ${({ theme }) => theme.COLORS.GRAY_200};
+    > div:last-child {
+      gap: 1.6rem;
 
- margin-bottom: 8rem;
+      > input {
+        height: 4.8rem;
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
+        color: ${({ theme }) => theme.COLORS.GRAY_200};
+      }
+    }
+  }
 
- > div {
-   display: flex;
-   flex-wrap: wrap;
-   gap: 1rem;
-   max-height: max-content;
-   padding: 0.8rem;
+  > #textarea {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
 
-   border: 1px solid ${({ theme }) => theme.COLORS.WHITE};
-   border-radius: 0.5rem;
- }
+  div:last-child {
+    display: flex;
+    gap: clamp(1rem, -2.2rem + 10vw, 3.2rem);
+    > #buttonAdd {
+      font-size: clamp(1.2rem, 0.6182rem + 1.8182vw, 1.6rem);
+      padding-block: 1.2rem;
+      padding-inline: 0;
+    }
+    > #buttonRemove {
+      font-size: clamp(1.2rem, 0.6182rem + 1.8182vw, 1.6rem);
 
- @media (min-width: 768px) {
-   margin-bottom: 0;
+      padding-block: 1.2rem;
+      padding-inline: 0;
+    }
+  }
 
-   > div {
-     max-height: 4.8rem;
-     gap: 2rem;
-   }
- }
-`
+  @media (min-width: 740px) {
+    #threeColumns {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: clamp(1rem, -5.2615rem + 8.4615vw, 3.2rem);
+      > div {
+        width: 100%;
+      }
+
+      > div:first-child {
+        min-width: 184px;
+        max-width: 229px;
+      }
+    }
+
+    #twoColumns {
+      flex-direction: row;
+
+      > div:first-child {
+        flex: 1;
+      }
+    }
+  }
+
+  @media (min-width: 769px) {
+    > div:last-child {
+      align-self: flex-end;
+      > #buttonAdd {
+        width: 17.2rem;
+      }
+
+      > #buttonRemove {
+        width: 13.5rem;
+      }
+    }
+  }
+`;
+
+export const Textarea = styled.textarea`
+  border-radius: 0.8rem;
+  height: 17.2rem;
+  padding: 1.4rem;
+
+  outline: none;
+  border: none;
+
+  background-color: ${({ theme }) => theme.COLORS.DARK_800};
+  color: ${({ theme }) => theme.COLORS.GRAY_200};
+
+  resize: none;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.COLORS.GRAY_500};
+  }
+
+  &:focus {
+    outline: 2px solid ${({ theme }) => theme.COLORS.CAKE_200};
+  }
+`;

@@ -31,7 +31,6 @@ const Header = ({ search }) => {
   const handleGoToNew = () => {
     navigate("/newplate");
   };
-  console.log(search);
 
   return (
     <Container>
@@ -53,7 +52,7 @@ const Header = ({ search }) => {
               }}
             />
           </Search>
-          {!!user.user.isAdmin ? (
+          {user.user.isAdmin ? (
             <Button type="button" onClick={() => handleGoToNew()}>
               <img src={receipt} alt="receipt" />
               Novo prato

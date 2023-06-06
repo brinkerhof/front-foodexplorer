@@ -1,40 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronLeft, FiUpload } from "react-icons/fi";
-import Select from "react-select";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Input from "../../components/Input";
 import IngredientCard from "../../components/IngredientCard";
-import Textarea from "../../components/Textarea";
+import Select from "../../components/Select";
 
 import { api } from "../../services/api";
 import {
-  ButtonBack,
   Container,
-  Content,
   Form,
-  InputWrapper,
-  SectionIngredients,
+  Textarea
 } from "./styles";
+import LinkText from "../../components/LinkText";
+import  Button  from "../../components/Button";
 
 const NewPlate = () => {
-  const token = localStorage.getItem("token");
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("salgados");
   const [price, setPrice] = useState("");
-  // TALVEZ USAR REACT-SELECT TAMBEM, CRIANDO UMA ARROW-FUCNTION QUE FACA REQUISICAO DE TODOS OS INGREDIENTES NO BANCO
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleAddIngredient = () => {
-    setIngredients((prevState) => [...prevState, newIngredient]);
-    setNewIngredient("");
+    if (newIngredient) {
+      const isNewIngredient = !ingredients.includes(newIngredient);
+      if (isNewIngredient) {
+        setIngredients((prevState) => [...prevState, newIngredient]);
+      } else {
+        alert('Ingredient já Adicionado!');
+      }
+    }
+
+    setNewIngredient('');
+    document.getElementById('add').focus();
   };
 
   const handleRemoveIngredient = (deleted) => {
@@ -44,10 +49,6 @@ const NewPlate = () => {
   };
 
   const handleNewPlate = async () => {
-    if (!image) {
-      return alert("Adicione uma imagem para o prato");
-    }
-
     if (!name) {
       return alert("Adicione um titulo para o prato");
     }
@@ -71,126 +72,134 @@ const NewPlate = () => {
     }
 
     setLoading(true);
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append("price", price);
+    const response = await api.post("/plates", {name, category, price, description, ingredients})
+    const plate_id = response.data.id.id
+    console.log(plate_id)
+    
+    if (image) {
+      const fileUploadForm = new FormData();
+      fileUploadForm.append('image', image);
 
-    ingredients.map((ingredient) => formData.append("ingredients", ingredient));
+      await api.patch(`/plates/image/${plate_id}`, fileUploadForm);
+    }
 
-    await api.post("/plates", formData, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    alert("Prato cadastrado com sucesso");
-    navigate("/");
+    alert('Prato adicionado!')
+    navigate('/');
+    setName('');
+    setIngredients([]);
+    setPrice('');
+    setDescription('');
 
     setLoading(false);
   };
 
-  const option = [
-    { value: "salgados", label: "Salgados" },
-    { value: "doces", label: "Doces" },
-    { value: "bebidas", label: "Bebidas" },
-  ];
+  function handleUploadPhoto(event) {
+    const file = event.target.files[0];
+    console.log(`Isso aqui eh o file: ${file}`)
+    setImage(file);
+  }
   return (
     <Container>
-      <Header />
-      <Content>
-        <ButtonBack>
-          <Link to="/">
-            {" "}
-            <FiChevronLeft size={30} />
-            Voltar
-          </Link>
-        </ButtonBack>
+    <Header />
 
-        <Form>
-          <header>
-            <legend>Adicionar Prato</legend>
-          </header>
+    <div className="wrapper">
+      <LinkText name="voltar" icon={FiChevronLeft} to={-1} />
+    </div>
 
-          <InputWrapper>
-            <div className="smallBox">
-              <label id="file" htmlFor="image">
-                Imagem do prato
-                <div>
-                  <FiUpload size={24} />
-                  <span>Selecione a imagem</span>
-                  <input
-                    id="image"
-                    type="file"
-                    onChange={(e) => {
-                      setImage(e.target.files[0]);
-                    }}
-                  />
-                </div>
-              </label>
-            </div>
-            <Input
-              label="name"
-              title="Nome do prato"
-              type="text"
-              placeholder="Ex.: Salada Ceasar"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Select
-              options={option}
-              onChange={(e) => {
-                setCategory(e.value);
-              }}
-            />
-          </InputWrapper>
+    <main>
+      <Form onSubmit={(e) => e.preventDefault()}>
+        <h1>Novo prato</h1>
 
-          <InputWrapper>
-            <SectionIngredients>
-              <span>Ingredientes</span>
-              <div>
-                {ingredients.map((ingredient, index) => (
-                  <IngredientCard
-                    key={String(index)}
-                    value={ingredient}
-                    onClick={() => handleRemoveIngredient(ingredient)}
-                  />
-                ))}
-                <IngredientCard
-                  isNew
-                  value={newIngredient}
-                  placeholder="Adicionar"
-                  onChange={(e) => setNewIngredient(e.target.value)}
-                  onClick={() => handleAddIngredient()}
-                />
-              </div>
-            </SectionIngredients>
-            <div className="smallBox">
+        <div id="threeColumns">
+          <div className="input-wrapper">
+            <label htmlFor="image">Imagem do prato</label>
+            <div>
+              <span>
+                <FiUpload />{' '}
+                {image ? image.name : 'Selecione a imagem'}
+              </span>
               <Input
-                label="price"
-                title="Preço"
-                type="text"
-                placeholder="R$ 00,00"
-                onChange={(e) => setPrice(e.target.value)}
+                id="image"
+                accept="image/png, image/jpeg"
+                type="file"
+                style={{ cursor: 'pointer' }}
+                onChange={handleUploadPhoto}
               />
             </div>
-          </InputWrapper>
-          <Textarea
-            label="Description"
-            title="Descrição"
-            placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
-            onChange={(e) => {
-              setDescription(e.target.value);
-              console.log(image);
-            }}
+          </div>
+
+          <Input
+            id="name"
+            label="Nome"
+            placeholder="Salada Ceasar"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-          <button type="button" onClick={handleNewPlate} disabled={loading}>
-            {loading ? "Adicionando prato" : "Adicionar prato"}
-          </button>
-        </Form>
-      </Content>
-      <Footer />
-    </Container>
+
+          <div>
+            <label htmlFor="category">Categoria</label>
+            <Select
+              id="category"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="meal">Refeição</option>
+              <option value="dessert">Sobremesa</option>
+              <option value="drink">Bebida</option>
+            </Select>
+          </div>
+        </div>
+
+        <div id="twoColumns">
+          <div>
+            <label htmlFor="add">Ingredientes</label>
+            <div>
+              {ingredients.map((ingredient, index) => (
+                <IngredientCard
+                  key={String(index)}
+                  value={ingredient}
+                  onClick={(e) => handleRemoveIngredient(ingredient)}
+                  size={String(ingredient.length)}
+                />
+              ))}
+
+              <IngredientCard
+                id="add"
+                isNew
+                size="6"
+                value={newIngredient}
+                onChange={(e) => setNewIngredient(e.target.value)}
+                onClick={()=> handleAddIngredient()}
+              />
+            </div>
+          </div>
+
+          <Input
+            id="price"
+            type="number"
+            label="Preço"
+            placeholder="R$ 00,00"
+            min="0"
+            step="0.010"
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+
+        <div id="textarea">
+          <label htmlFor="description">Descrição</label>
+          <Textarea
+            id="description"
+            placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        <Button id="buttonAdd" title="Adicionar" onClick={()=>handleNewPlate() } />
+      </Form>
+    </main>
+    <Footer />
+  </Container>
   );
 };
 

@@ -8,7 +8,6 @@ import { Container, Form } from "./styles";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const { handleLogin, loading } = useAuthContext();
 
   return (
